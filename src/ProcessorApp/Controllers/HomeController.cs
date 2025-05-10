@@ -26,11 +26,11 @@ public class HomeController : Controller
         if (!string.IsNullOrWhiteSpace(arrayList))
         {
             //Split to list of string by comma from input
-            var stringList = arrayList.Split(',',StringSplitOptions.RemoveEmptyEntries);
+            var stringList = arrayList.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
             // Change from list of string to list of integer
             // Will remove other strings except digits
-            var numberList = stringList.Select(s => int.TryParse(s.Trim(), out var n) ? n : (int?) null).Where(n => n.HasValue).ToList();
+            var numberList = stringList.Where(s => int.TryParse(s.Trim(), out _)).Select(s => int.Parse(s.Trim())).ToList();
 
             if (numberList is not null && numberList.Any())
             {
@@ -38,14 +38,17 @@ public class HomeController : Controller
                 {
                     case "ListOdd":
                         var odds = numberList.Where(n => n % 2 != 0).ToList();
-                        result = "Odd Numbers: " + string.Join(", ", odds);
+                        if (odds.Any())
+                            result = "Odd Numbers: " + string.Join(", ", odds);
+                        else
+                            result = "No odd number found.";
                         break;
                     case "Sum":
                         result = "Sum: " + numberList.Sum();
                         break;
                     case "CountDuplicate":
                         var duplicates = numberList.GroupBy(n => n).Where(g => g.Count() > 1);
-                        if(duplicates.Any())
+                        if (duplicates.Any())
                             result = "Duplicates: " + string.Join(", ", duplicates.Select(d => $"{d.Key} ({d.Count()} times)"));
                         else
                             result = "No duplicates found.";
@@ -56,7 +59,7 @@ public class HomeController : Controller
                 }
             }
         }
-        
+
         TempData["ResultMessage"] = result;
         return RedirectToAction("Index");
     }
