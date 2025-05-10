@@ -1,8 +1,60 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var showModal = TempData["ResultMessage"] != null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h3>Process</h3>
+    <form asp-action="Compute" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-row">
+            <label for="arrayList">Enter Array List</label>
+            <input type="text" id="arrayList" name="arrayList" placeholder="1,2,3,4,5" required pattern=".*\S.*" />
+        </div>
+
+        <div class="form-row radio-row">
+            <label class="radio-option">
+                <input type="radio" name="compute" value="ListOdd"/> List Odd Numbers
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="compute" value="Sum" /> Sum
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="compute" value="CountDuplicate" /> Count Duplicate
+            </label>
+        </div>
+
+        <div class="form-row button-row">
+            <button type="submit">Compute</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your Result: </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                @TempData["ResultMessage"]
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const showModal = @showModal.ToString().ToLower();
+            if (showModal) {
+                const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+                resultModal.show();
+            }
+        });
+    </script>
+}
