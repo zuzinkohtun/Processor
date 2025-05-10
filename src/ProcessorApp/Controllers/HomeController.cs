@@ -18,10 +18,49 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    [HttpPost]
+    public IActionResult Compute(string arrayList, string compute)
     {
-        return View();
+        string result = "Invalid input.";
+
+        if (!string.IsNullOrWhiteSpace(arrayList))
+        {
+            //Split to list of string by comma from input
+            var stringList = arrayList.Split(',',StringSplitOptions.RemoveEmptyEntries);
+
+            // Change from list of string to list of integer
+            // Will remove other strings except digits
+            var numberList = stringList.Select(s => int.TryParse(s.Trim(), out var n) ? n : (int?) null).Where(n => n.HasValue).ToList();
+
+            if (numberList is not null && numberList.Any())
+            {
+                switch (compute)
+                {
+                    case "ListOdd":
+                        var odds = numberList.Where(n => n % 2 != 0).ToList();
+                        result = "Odd Numbers: " + string.Join(", ", odds);
+                        break;
+                    case "Sum":
+                        result = "Sum: " + numberList.Sum();
+                        break;
+                    case "CountDuplicate":
+                        var duplicates = numberList.GroupBy(n => n).Where(g => g.Count() > 1);
+                        if(duplicates.Any())
+                            result = "Duplicates: " + string.Join(", ", duplicates.Select(d => $"{d.Key} ({d.Count()} times)"));
+                        else
+                            result = "No duplicates found.";
+                        break;
+                    default:
+                        result = "System Error!";
+                        break;
+                }
+            }
+        }
+        
+        TempData["ResultMessage"] = result;
+        return RedirectToAction("Index");
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
