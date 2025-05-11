@@ -22,9 +22,23 @@
 ```bash
 git clone https://github.com/zuzinkohtun/Processor.git
 cd src/ProcessorApp
+```
 
+### 2. Build the project
+```bash
 dotnet build
 ```
+
+### 3. Run the application
+```bash
+dotnet run
+```
+Then navigate to http://localhost:5000 in your browser.
+
+
+### 4. Run Unit Tests
+```bash
+cd 
 
 
 
