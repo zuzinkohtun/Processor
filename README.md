@@ -7,3 +7,21 @@
 - Listing odd numbers
 - Calculating the sum
 - Counting duplicate values
+
+## 🛠️ Technologies Used
+
+- ASP.NET Core MVC
+- Bootstrap 5
+- xUnit for unit testing
+
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/zuzinkohtun/Processor.git
+cd src/ProcessorApp
+
+dotnet build
+
