@@ -24,4 +24,8 @@ git clone https://github.com/zuzinkohtun/Processor.git
 cd src/ProcessorApp
 
 dotnet build
+```
+
+
+
 
