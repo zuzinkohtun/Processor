@@ -33,7 +33,7 @@ dotnet build
 ```bash
 dotnet run
 ```
-Then navigate to http://localhost:5000 in your browser.
+Then navigate to http://localhost:5119 in your browser.
 
 
 ### 4. Run Unit Tests
