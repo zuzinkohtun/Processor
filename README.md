@@ -38,7 +38,11 @@ Then navigate to http://localhost:5000 in your browser.
 
 ### 4. Run Unit Tests
 ```bash
-cd 
+cd ProjectA/src/ProjectAWeb
+dotnet test
+```
+
+
 
 
 
